@@ -42,3 +42,7 @@ quicksort (x:xs) =
     let smallerSorted = quicksort [a | a <- xs, a <= x]
         biggerSorted = quicksort [a | a <- xs, a > x]
     in  smallerSorted ++ [x] ++ biggerSorted
+
+factorial :: Integer -> Integer
+factorial 0 = 1
+factorial x = x * (factorial (x-1))
