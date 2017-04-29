@@ -1,5 +1,5 @@
 module Tree
-( Tree
+( Tree(..)
 , singleton
 , treeInsert
 , treeElem
@@ -23,3 +23,7 @@ treeElem x (Node a left right)
     | x == a = True
     | x < a  = treeElem x left
     | x > a  = treeElem x right
+
+instance Functor Tree where
+    fmap f EmptyTree = EmptyTree
+    fmap f (Node x leftsub rightsub) = Node (f x) (fmap f leftsub) (fmap f rightsub)
