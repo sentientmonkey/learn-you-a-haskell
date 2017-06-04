@@ -1,32 +1,35 @@
 module Set
-( isEmpty
+( SetList(..)
+, isEmpty
 , size
 , contains
 , add
 , remove
 ) where
 
-isEmpty :: [a] -> Bool
-isEmpty [] = True
-isEmpty x = False
+newtype SetList a = SetList { getSetList :: [a] } deriving (Eq, Show)
 
-size :: [a] -> Int
-size [] = 0
-size (_:xs) = 1 + size xs
+isEmpty :: SetList a -> Bool
+isEmpty (SetList []) = True
+isEmpty (SetList x) = False
 
-contains :: (Eq a) => [a] -> a -> Bool
-contains (y:ys) x
+size :: SetList a -> Int
+size (SetList []) = 0
+size (SetList(_:xs)) = 1 + size (SetList xs)
+
+contains :: (Eq a) => SetList a -> a -> Bool
+contains (SetList(y:ys)) x
     | x==y = True
-    | otherwise = contains ys x
-contains [] x = False
+    | otherwise = contains (SetList ys) x
+contains (SetList []) x = False
 
-add :: (Eq a) => [a] -> a -> [a]
-add xs x
-    | contains xs x = xs
-    | otherwise = xs ++ [x]
+add :: (Eq a) => SetList a -> a -> SetList a
+add (SetList xs) x
+    | contains (SetList xs) x = (SetList xs)
+    | otherwise = SetList (xs ++ [x])
 
-remove :: (Eq a) => [a] -> a -> [a]
-remove [] _ = []
-remove (y:ys) x
-    | x==y = ys
-    | otherwise = [y] ++ remove ys x
+remove :: (Eq a) => SetList a -> a -> SetList a
+remove (SetList []) _ = SetList []
+remove (SetList (y:ys)) x
+    | x==y = (SetList ys)
+    | otherwise = SetList([y] ++ getSetList (remove (SetList ys) x))
