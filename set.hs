@@ -1,13 +1,21 @@
 module Set
-( SetList(..)
+( fromList
 , isEmpty
 , size
 , contains
 , add
 , remove
+, elements
 ) where
 
 newtype SetList a = SetList { getSetList :: [a] } deriving (Eq, Show)
+
+fromList :: (Eq a) => [a] -> SetList a
+fromList [] = SetList []
+fromList (x:xs) = (add (fromList xs) x)
+
+elements :: SetList a -> [a]
+elements = getSetList
 
 isEmpty :: SetList a -> Bool
 isEmpty (SetList []) = True
