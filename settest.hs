@@ -18,9 +18,11 @@ tests = test [ "test1" ~: "isEmpty without element" ~: True ~=? (Set.isEmpty emp
              , "test10" ~: "build from list" ~: [1] ~=? (Set.elements (Set.fromList [1,1,1]))
              ]
 
+run = runTestTT tests
+
 main :: IO ()
 main = do
-    counts2 <- runTestTT tests
+    counts2 <- run
     if (errors counts2 + failures counts2 == 0)
         then exitSuccess
         else exitFailure
